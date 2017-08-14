@@ -44,16 +44,6 @@ enum {
   TD_O_OE = 2
 };
 
-//Tap Dance Definitions
-qk_tap_dance_action_t tap_dance_actions[] = {
-  //Tap once for a, twice for å (Nordic APOS)
-  [TD_A_AA]  = ACTION_TAP_DANCE_DOUBLE(KC_A, UC(0x00e5)),
-  //Tap once for e, twice for æ (Nordic AE)
-  [TD_E_AE]  = ACTION_TAP_DANCE_DOUBLE(KC_E, UC(0x00e6)),
-  //Tap once for o, twice for ø (Nordic OSLH)
-  [TD_O_OE]  = ACTION_TAP_DANCE_DOUBLE(KC_O, UC(0x00f8))
-  
-};
 
 // Custom
 #define CTL_ESC CTL_T(KC_ESC)  // Tap for Escape, hold for Control
@@ -109,7 +99,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	{KC_ESC,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL}, 
 	{KC_TAB,  _______, KC_UP,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_INS}, 
 	{_______,KC_LEFT, KC_DOWN, KC_RIGHT,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_ENT}, 
-		{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_HOME, KC_UP,   KC_END}, 
+	{_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_UP,   KC_END}, 
 	{_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}
 },
 
@@ -119,9 +109,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |  up  |      |      |      |      |  7   |  8   |  9   |      |      |      |      |      | Ins  |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |  4   |  5   |  6   |      |      |      |      |      |Enter |
+ * | left | down  right |      |      |      |  4   |  5   |  6   |      |      |      |      |      |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |  1   |  2   |  3   |Enter |      |      | Home |  Up  | End  |
+ * |      |      |      |      |      |      |  1   |  2   |  3   |Enter |      |      | Home |      | End  |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |             |  0   | Del  |  .   |Enter |      |      |      |      |      |
  * `--------------------------------------------------------------------------------------------------------'
@@ -129,8 +119,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_FN1] = {
 	{KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_NLCK, KC_PSLS, KC_PAST, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12}, 
 	{KC_TAB , _______, KC_UP,  _______, _______, _______, KC_P7,   KC_P8,   KC_P9,   _______, _______, _______, _______, _______, KC_INS}, 
-	{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P4,   KC_P5,   KC_P6,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_ENT}, 
-	{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P1,   KC_P2,   KC_P3,   KC_PENT, KC_TRNS, KC_TRNS, KC_HOME, KC_UP,   KC_END}, 
+	{_______, KC_LEFT,  KC_DOWN, KC_RIGHT, _______, _______, KC_P4,   KC_P5,   KC_P6,   _______, _______, _______, _______, _______, KC_ENT}, 
+	{_______, _______, _______, _______, _______, _______, KC_P1,   KC_P2,   KC_P3,   KC_PENT, _______, _______, KC_HOME, KC_UP,   KC_END}, 
 	{_______, _______, _______, _______, _______, _______, KC_P0,   KC_DEL,  KC_PDOT, KC_PENT, _______, _______, _______, _______, _______}
 },
 
@@ -148,10 +138,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `--------------------------------------------------------------------------------------------------------'
  */
 [_SPECIAL] = {
-	{RESET,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS}, 
-	{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS}, 
-	{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS}, 
-	{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS}, 
+	{RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}, 
+	{_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}, 
+	{_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}, 
+	{_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}, 
 	{_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}
 },	
 /* Colemak

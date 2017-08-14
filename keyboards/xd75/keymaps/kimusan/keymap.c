@@ -1,6 +1,7 @@
 #include "xd75.h"
 #include "action_layer.h"
 #include "eeconfig.h"
+#include "keymap_nordic.h"
 
 extern keymap_config_t keymap_config;
 
@@ -20,6 +21,9 @@ extern keymap_config_t keymap_config;
 
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
+  FN0,
+  FN1,
+  SPECIAL,
   COLEMAK,
   DVORAK,
   LOWER,
@@ -27,9 +31,29 @@ enum custom_keycodes {
   ADJUST,
 };
 
+
 // Fillers to make layering more clear
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
+
+
+
+enum {
+  TD_A_AA = 0,
+  TD_E_AE = 1,
+  TD_O_OE = 2
+};
+
+//Tap Dance Definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+  //Tap once for a, twice for å (Nordic APOS)
+  [TD_A_AA]  = ACTION_TAP_DANCE_DOUBLE(KC_A, UC(0x00e5)),
+  //Tap once for e, twice for æ (Nordic AE)
+  [TD_E_AE]  = ACTION_TAP_DANCE_DOUBLE(KC_E, UC(0x00e6)),
+  //Tap once for o, twice for ø (Nordic OSLH)
+  [TD_O_OE]  = ACTION_TAP_DANCE_DOUBLE(KC_O, UC(0x00f8))
+  
+};
 
 // Custom
 #define CTL_ESC CTL_T(KC_ESC)  // Tap for Escape, hold for Control
@@ -37,6 +61,12 @@ enum custom_keycodes {
 #define SFT_BSP SFT_T(KC_BSPC) // Tap for Backspace, hold for Shift
 #define HPR_TAB ALL_T(KC_TAB)  // Tap for Tab, hold for Hyper (Super+Ctrl+Alt+Shift)
 // #define MEH_GRV MEH_T(KC_GRV)  // Tap for Backtick, hold for Meh (Ctrl+Alt+Shift)
+#define A_AA  TD(TD_A_AA)
+#define E_AE TD(TD_E_AE)
+#define O_OE TD(TD_O_OE)
+#define MO_FN0 MO(1)
+#define MO_FN1 MO(2)
+#define MO_SPECIAL  MO(3)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -46,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
  * | Tab  |   Q  |   W  |   E  |   R  |   T  |   {  |   =  |  }   |   Y  |   U  |   I  |   O  |   P  | Ins  |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
- * | capsl|   A  |   S  |   D  |   F  |   G  |   (  |  Del |  )   |   H  |   J  |   K  |   L  |   *  |Enter |
+ * | capsl|   A  |   S  |   D  |   F  |   G  |   (  |   :  |  )   |   H  |   J  |   K  |   L  |   *  |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
  * | Shift|   Z  |   X  |   C  |   V  |   B  | Home |  Up  | End  |   N  |   M  |   ,  |   .  |   -  |RShift|
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
@@ -55,20 +85,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
 [_QWERTY] = {
-	{KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_LBRC, KC_MINS, KC_RBRC, KC_6, KC_7, KC_8, KC_9, KC_0, KC_BSPC},
-	{KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_LCBR, KC_EQL, KC_RCBR, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_INS}, 
-	{KC_CAPS, KC_A, KC_S, KC_D, KC_F, KC_G, KC_LPRN, KC_DEL, KC_RPRN, KC_H, KC_J, KC_K, KC_L, KC_QUOT, KC_ENT}, 
-	{KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_HOME, KC_UP, KC_END, KC_N, KC_M, KC_COMM, KC_DOT, KC_MINS, KC_RSFT}, 
-	{KC_LCTL, KC_LGUI, KC_LALT, MO(1), KC_SPC, KC_SPC, KC_LEFT, KC_DOWN, KC_RGHT, KC_SPC, KC_SPC, RALT(KC_NO), MO(2), MO(3), KC_RCTL}
+	{KC_ESC,    KC_1,       KC_2,   KC_3,   KC_4,   KC_5,   KC_LBRC, KC_MINS,   KC_RBRC,    KC_6,   KC_7,   KC_8,       KC_9,   KC_0,    	KC_BSPC},
+    {KC_TAB,    KC_Q,       KC_W,   E_AE,   KC_R,   KC_T,   KC_LCBR, KC_EQL,    KC_RCBR,    KC_Y,   KC_U,   KC_I,       O_OE,   KC_P,    	KC_INS}, 
+	{KC_CAPS,   A_AA,       KC_S,   KC_D,   KC_F,   KC_G,   KC_LPRN, KC_SCLN,   KC_RPRN,    KC_H,   KC_J,   KC_K,       KC_L,   KC_QUOT, 	KC_ENT}, 
+	{KC_LSFT,   KC_Z,       KC_X,   KC_C,   KC_V,   KC_B,   KC_HOME, KC_UP,     KC_END,     KC_N,   KC_M,   KC_COMM,    KC_DOT, KC_MINS, 	KC_RSFT}, 
+	{KC_LCTL,   KC_LGUI, KC_LALT,   MO_FN0, KC_SPC, KC_SPC, KC_LEFT, KC_DOWN,   KC_RGHT,    KC_SPC, KC_SPC, KC_RALT,    MO_FN1, MO_SPECIAL, KC_RCTL}
 },
 
 /* Fn0
  * ,--------------------------------------------------------------------------------------------------------.
  * | ESC  |      |      |      |      |      |      |      |      |      |      |      |      |      |  DEL |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |      |      |      |      |      |      | Ins  |
+ * |      |  up  |      |      |      |      |      |      |      |      |      |      |      |      | Ins  |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |      |      |      |      |      |      |Enter |
+ * | left | down | right|      |      |      |      |      |      |      |      |      |      |      |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |      |      |      |      |      |      |      | Home |  Up  | End  |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
@@ -76,32 +106,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `--------------------------------------------------------------------------------------------------------'
  */
 [_FN0] = {
-	{KC_ESC,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_DEL}, 
-		{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_INS}, 
-		{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_ENT}, 
-		{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_HOME, KC_UP,   KC_END}, 
-		{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT}
+	{KC_ESC,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL}, 
+	{KC_TAB,  _______, KC_UP,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_INS}, 
+	{_______,KC_LEFT, KC_DOWN, KC_RIGHT,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_ENT}, 
+	{_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_UP,   KC_END}, 
+	{_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}
 },
 
 /* Fn0
  * ,--------------------------------------------------------------------------------------------------------.
  * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |  NUM |  /   |  *   |  F7  |  F8  |  F9  | F10  | F11  |  F12 |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |  7   |  8   |  9   |      |      |      |      |      | Ins  |
+ * |      |  up  |      |      |      |      |  7   |  8   |  9   |      |      |      |      |      | Ins  |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |  4   |  5   |  6   |      |      |      |      |      |Enter |
+ * | left | down  right |      |      |      |  4   |  5   |  6   |      |      |      |      |      |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |  1   |  2   |  3   |Enter |      |      | Home |  Up  | End  |
+ * |      |      |      |      |      |      |  1   |  2   |  3   |Enter |      |      | Home |      | End  |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |             |  0   | Del  |  .   |Enter |      |      | Left | Down | Right|
+ * |      |      |      |      |             |  0   | Del  |  .   |Enter |      |      |      |      |      |
  * `--------------------------------------------------------------------------------------------------------'
  */
 [_FN1] = {
 	{KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_NLCK, KC_PSLS, KC_PAST, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12}, 
-	{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P7,   KC_P8,   KC_P9,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_INS}, 
-	{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P4,   KC_P5,   KC_P6,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_ENT}, 
-	{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P1,   KC_P2,   KC_P3,   KC_PENT, KC_TRNS, KC_TRNS, KC_HOME, KC_UP,   KC_END}, 
-	{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P0,   KC_DEL,  KC_PDOT, KC_PENT, KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT}
+	{KC_TAB , _______, KC_UP,  _______, _______, _______, KC_P7,   KC_P8,   KC_P9,   _______, _______, _______, _______, _______, KC_INS}, 
+	{_______, KC_LEFT,  KC_DOWN, KC_RIGHT, _______, _______, KC_P4,   KC_P5,   KC_P6,   _______, _______, _______, _______, _______, KC_ENT}, 
+	{_______, _______, _______, _______, _______, _______, KC_P1,   KC_P2,   KC_P3,   KC_PENT, _______, _______, KC_HOME, KC_UP,   KC_END}, 
+	{_______, _______, _______, _______, _______, _______, KC_P0,   KC_DEL,  KC_PDOT, KC_PENT, _______, _______, _______, _______, _______}
 },
 
 /* Special TODO: add Media and light control
@@ -118,11 +148,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `--------------------------------------------------------------------------------------------------------'
  */
 [_SPECIAL] = {
-	{RESET,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS}, 
-	{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS}, 
-	{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS}, 
-	{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS}, 
-	{KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS}
+	{RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}, 
+	{_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}, 
+	{_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}, 
+	{_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}, 
+	{_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}
 },	
 /* Colemak
  * ,--------------------------------------------------------------------------------------------------------.
@@ -170,7 +200,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,--------------------------------------------------------------------------------------------------------.
  * |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------+------+------+------|
- * |   ~  |   !  |   @  |   #  |   $  |   %  |      |      |      |   ^  |   &  |   *  |   (  |   )  | Bksp |
+ * |   ~  |   !  |   @  |   #  |   $  |   %  |      |      |      |   ^  |   &  |   *  |   (,  |   )  | Bksp |
  * |------+------+------+------+------+-------------+------+------+------+------+------+------+------+------|
  * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |      |      |      |  F6  |   _  |   +  |   {  |   }  |  |   |
  * |------+------+------+------+------+------|------+------+------+------+------+------+------+------+------|
@@ -241,6 +271,11 @@ void persistent_default_layer_set(uint16_t default_layer) {
   default_layer_set(default_layer);
 }
 
+void matrix_init_user(){
+    set_unicode_input_mode(UC_LNX);
+}
+
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case QWERTY:
@@ -252,7 +287,36 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
-    case COLEMAK:
+/*    case FN0:
+      if (record->event.pressed) {
+        layer_on(_FN0);
+        update_tri_layer(_FN0, _FN1, _ADJUST);
+      } else {
+        layer_off(_FN0);
+        update_tri_layer(_FN0, _FN1, _ADJUST);
+      }
+      return false;
+      break;
+    case FN1:
+      if (record->event.pressed) {
+        layer_on(_FN1);
+        update_tri_layer(_FN0, _FN1, _ADJUST);
+      } else {
+        layer_off(_FN1);
+        update_tri_layer(_FN0, _FN1, _ADJUST);
+      }
+      return false;
+      break;
+    case SPECIAL:
+      if (record->event.pressed) {
+        layer_on(_SPECIAL);
+      } else {
+        layer_off(_SPECIAL);
+      }
+      return false;
+      break;
+*/
+	  case COLEMAK:
       if (record->event.pressed) {
         #ifdef AUDIO_ENABLE
           PLAY_NOTE_ARRAY(tone_colemak, false, 0);

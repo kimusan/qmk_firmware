@@ -59,6 +59,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define RGBLED_NUM 16    // Number of LEDs
 
+#define QMK_ESC_OUTPUT F6 // usually COL
+#define QMK_ESC_INPUT D7 // usually ROW
+#define QMK_LED B0
 /*
  * Feature disable options
  *  These options are also useful to firmware size reduction.

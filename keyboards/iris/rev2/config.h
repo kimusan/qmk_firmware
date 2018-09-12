@@ -69,6 +69,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ws2812_PORTREG  PORTD
 #define ws2812_DDRREG   DDRD
 
+#define QMK_ESC_OUTPUT F6 // usually COL
+#define QMK_ESC_INPUT D7 // usually ROW
+#define QMK_LED B0
 /*
  * Feature disable options
  *  These options are also useful to firmware size reduction.

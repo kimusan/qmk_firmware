@@ -18,8 +18,6 @@ enum custom_keycodes {
 
 #define KC_ KC_TRNS
 #define _______ KC_TRNS
-#define KC_LMIX MT(KC_LCTL, NO_GRTR)
-#define KC_GUIALT LALT_T(KC_LGUI)
 #define KC_LOWR LOWER
 #define KC_RASE RAISE
 #define KC_RST RESET
@@ -38,9 +36,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|-------+-------+-------+-------+-------+-------|                     |-------+-------+-------+-------+-------+-------|
      KC_LSFT, KC_A  , KC_S  , KC_D  , KC_F  , KC_G  ,                      KC_H   , KC_J  , KC_K  , KC_L  , KC_AE , KC_OE ,
   //|-------+-------+-------+-------+-------+-------+---------  ,---------|-------+-------+-------+-------+-------+-------|
-     KC_CTL , KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  , KC_HOME,     KC_END , KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,RSFT_T(KC_ENT),
+     KC_LCTL , KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  , KC_HOME,     KC_END , KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,RSFT_T(KC_ENT),
   //`-------+-------+-------+-----+-+-------+-------+-------/     \-------+-------+-------+-------+-------+-------+-------'
-                             ALT_T(KC_LGUI),KC_LOWR,KC_SPC ,       KC_ENT ,KC_RASE,KC_LALT
+                             ALT_T(KC_LGUI),KC_LOWR,KC_SPC ,       KC_ENT ,KC_RASE,KC_RALT
   //                              `-------+-------+-------'        `-------+-------+-------'
   ),
 
@@ -50,11 +48,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|-------+-------+-------+-------+-------+-------|                    |-------+-------+-------+-------+-------+-------|
      LALT(KC_TAB),KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,                     KC_TRNS,KC_TRNS,KC_UP,NO_PIPE,NO_PIPE,NO_QUOT,
   //|-------+-------+-------+-------+-------+-------|                    |-------+-------+-------+-------+-------+-------|
-     KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,NO_BSLS,                     KC_TRNS,KC_LEFT,KC_DOWN  ,KC_RGHT,KC_TRNS, NO_APOS,
+     KC_TRNS,TERM_ON,TERM_OFF,KC_TRNS,KC_TRNS,NO_BSLS,                     KC_TRNS,KC_LEFT,KC_DOWN  ,KC_RGHT,KC_TRNS, NO_APOS,
   //|-------+-------+-------+-------+-------+-------+-------.    ,-------|-------+-------+-------+-------+-------+-------|
-     BL_STEP,RGB_TOG,RGB_MOD,RGB_HUI,RGB_SAI,RGB_VAI,KC_TRNS,     KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,NO_LESS,KC_RSFT,
+     BL_STEP,RGB_TOG,RGB_MOD,RGB_HUI,RGB_SAI,RGB_VAI,KC_PGUP,     KC_PGDN,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,NO_LESS,KC_RSFT,
   //`-------+-------+-------+--+----+-------+-------+-------/    \-------+-------+-------+-------+-------+-------+-------'
-                                   KC_TRNS,KC_TRNS,KC_TRNS,         KC_TRNS,KC_TRNS,KC_TRNS
+                                   KC_LGUI,KC_TRNS,KC_TRNS,         KC_TRNS,KC_TRNS,KC_TRNS
   //                              `-------+-------+-------'        `-------+-------+-------'
   ),
 
@@ -64,9 +62,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|-------+-------+-------+-------+-------+-------|                    |-------+-------+-------+-------+-------+-------|
      NO_GRV ,KC_F11 ,KC_F12  ,KC_9   ,NO_MINS,NO_MINS,                     KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,NO_PIPE,
   //|-------+-------+-------+-------+-------+-------|                    |-------+-------+-------+-------+-------+-------|
-     KC_TRNS,KC_4   ,KC_5   ,KC_6   ,NO_PLUS,NO_SLSH,                     KC_HOME,KC_PGDN,KC_PGUP,KC_END ,KC_TRNS,NO_BSLS,
+     KC_TRNS,KC_4   ,KC_5   ,KC_6   ,NO_PLUS,NO_SLSH,                     KC_HOME,KC_PGDN,KC_PGUP,KC_END ,KC_TRNS,NO_APOS,
   //|-------+-------+-------+-------+-------+-------+-------.    ,-------|-------+-------+-------+-------+-------+-------|
-     KC_TRNS,KC_1   ,KC_2   ,KC_3   ,KC_0   ,NO_EQL ,KC_TRNS,     KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+     KC_NUBS,KC_1   ,KC_2   ,KC_3   ,KC_0   ,NO_EQL ,KC_TRNS,     KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
   //`-------+-------+-------+--+----+-------+-------+-------/    \-------+-------+-------+-------+-------+-------+-------'
                                    KC_TRNS,KC_TRNS,KC_TRNS,         KC_TRNS,KC_TRNS,KC_TRNS
   //                              `-------+-------+-------'        `-------+-------+-------'
